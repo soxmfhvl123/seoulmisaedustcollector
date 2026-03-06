@@ -325,8 +325,19 @@ loader.load('fbx.FBX', (object) => {
     treeMesh.name = "ParticleTree"; // Rename for toggle logic
     scene.add(treeMesh);
 
-}, undefined, (e) => {
+    // Hide Loading Screen once generation is complete
+    const loadingScreen = document.getElementById('loadingScreen');
+    if (loadingScreen) {
+        loadingScreen.classList.add('hidden');
+    }
+
+}, (xhr) => {
+    // Optional: Log loading progress
+    // console.log((xhr.loaded / xhr.total) * 100 + '% loaded');
+}, (e) => {
     console.error("Failed to load FBX:", e);
+    const loadingScreen = document.getElementById('loadingScreen');
+    if (loadingScreen) loadingScreen.innerHTML = '<div style="color:red">Failed to load 3D Data</div>';
 });
 
 

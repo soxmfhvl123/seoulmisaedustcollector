@@ -24,7 +24,8 @@ camera.position.set(0, 0, 20); // Zoomed in closer to Z=20
 
 const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" }); // Enabled antialias for wireframe mode
 renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+// Optimize: Cap pixel ratio at 1.5 instead of 2.0 to massively save GPU fill-rate on high-res screens
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
 renderer.localClippingEnabled = true; // Required for GPU slicing the left tree
 // Additive blending works best in raw linear or basic sRGB, let's keep SRGB
 renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -184,8 +185,8 @@ loader.load('fbx.FBX', (object) => {
     scene.add(solidTreeObject);
     solidTreeObject.visible = false; // Hidden by default
 
-    // We want 500k to 1M points scattered across the mesh
-    const targetPointCount = 800000;
+    // Optimize: Reduced from 800k to 350k for smooth 60fps on RTX 3000 series
+    const targetPointCount = 350000;
     const positions = new Float32Array(targetPointCount * 3);
     const colors = new Float32Array(targetPointCount * 3);
 
@@ -294,7 +295,7 @@ loader.load('fbx.FBX', (object) => {
     applyTreeColors();
 
     treeMat = new THREE.PointsMaterial({
-        size: 0.35, // Reduced particle size from 0.45 
+        size: 0.45, // Compensate for fewer points by making them slightly bigger (0.35 -> 0.45)
         map: dotTexture,
         vertexColors: true,
         transparent: true,
@@ -344,7 +345,8 @@ loader.load('fbx.FBX', (object) => {
 
 
 // --- Weather Particle Systems ---
-const rainCount = 15000;
+// Optimize: Reduced rain/snow counts slightly
+const rainCount = 10000;
 const rainGeo = new THREE.BufferGeometry();
 const rainPositions = new Float32Array(rainCount * 3);
 for (let i = 0; i < rainCount; i++) {
@@ -366,7 +368,7 @@ const rainSystem = new THREE.Points(rainGeo, rainMat);
 rainSystem.visible = false;
 scene.add(rainSystem);
 
-const snowCount = 20000;
+const snowCount = 12000; // Down from 20000
 const snowGeo = new THREE.BufferGeometry();
 const snowPositions = new Float32Array(snowCount * 3);
 for (let i = 0; i < snowCount; i++) {

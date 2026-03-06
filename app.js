@@ -47,7 +47,7 @@ const renderScene = new RenderPass(scene, camera);
 // Tighter, dimmer bloom to prevent the points from looking blown out and highly emissive
 const bloomPass = new UnrealBloomPass(
     new THREE.Vector2(window.innerWidth, window.innerHeight),
-    0.6,  // Strength (reduced from 1.0 to cut emission glow in half)
+    0.3,  // Strength (reduced from 0.6 to cut emission glow)
     0.1,  // Radius (tighter)
     0.2   // Threshold (higher threshold so only the brightest stack of points glow)
 );
@@ -299,7 +299,7 @@ loader.load('fbx.FBX', (object) => {
         map: dotTexture,
         vertexColors: true,
         transparent: true,
-        opacity: 0.45, // Halved emission
+        opacity: 0.20, // Halved emission to prevent white burnout
         depthWrite: false,
         blending: THREE.AdditiveBlending
     });
@@ -513,9 +513,9 @@ function applyWeatherToScene(type) {
 
     // Apply baseline opacity to the material
     if (treeMat) {
-        if (type === 'CLEAR') treeMat.opacity = 0.5;
-        else if (type === 'CLOUDY' || type === 'FOG') treeMat.opacity = 0.3;
-        else treeMat.opacity = 0.5;
+        if (type === 'CLEAR') treeMat.opacity = 0.25;
+        else if (type === 'CLOUDY' || type === 'FOG') treeMat.opacity = 0.15;
+        else treeMat.opacity = 0.25;
     }
 
     if (type === 'RAIN' || type === 'THUNDER') rainSystem.visible = true;
@@ -523,10 +523,10 @@ function applyWeatherToScene(type) {
 
     // Only update bloom automatically if we are in points mode
     if (currentRenderMode === 'points') {
-        if (type === 'CLEAR') bloomPass.strength = 0.7;
-        else if (type === 'CLOUDY' || type === 'FOG') bloomPass.strength = 0.4;
-        else if (type === 'RAIN' || type === 'THUNDER') bloomPass.strength = 0.5;
-        else if (type === 'SNOW') bloomPass.strength = 2.5;
+        if (type === 'CLEAR') bloomPass.strength = 0.35;
+        else if (type === 'CLOUDY' || type === 'FOG') bloomPass.strength = 0.2;
+        else if (type === 'RAIN' || type === 'THUNDER') bloomPass.strength = 0.25;
+        else if (type === 'SNOW') bloomPass.strength = 1.0;
     }
 }
 

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEOUL WEATHER - 3D Experience</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=2">
+</head>
+
+<body>
+    <!-- 3D Canvas Container -->
+    <div id="canvas-container"></div>
+
+    <!-- UI Overlay Layer -->
+    <div id="ui-layer">
+        <header class="weather-widget">
+            <h1 class="widget-title">SEOUL</h1>
+            <p class="widget-subtitle" style="display: flex; justify-content: space-between;">
+                <span>SOUTH KOREA</span>
+                <span id="currentTime">--:--</span>
+            </p>
+
+            <div class="weather-data">
+                <div class="data-main">
+                    <span id="tempValue" class="temp-text">--°</span>
+                </div>
+
+                <div class="data-details">
+                    <div class="detail-item">
+                        <span class="detail-label">CONDITION</span>
+                        <span id="conditionText" class="detail-val">Loading...</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">WIND</span>
+                        <span id="windValue" class="detail-val">-- m/s</span>
+                    </div>
+                </div>
+
+                <div class="data-details" style="margin-top: 10px;">
+                    <div class="detail-item">
+                        <span class="detail-label">PM10 (미세먼지)</span>
+                        <span id="pm10Value" class="detail-val">--</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">PM2.5 (초미세먼지)</span>
+                        <span id="pm25Value" class="detail-val">--</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="widget-footer">
+                <span class="live-indicator"><span class="dot"></span> LIVE DATA</span>
+                <span id="lastUpdated">Updated just now</span>
+            </div>
+        </header>
+
+        <!-- Bottom Right Interaction Hint -->
+        <div class="interaction-hint">
+            <svg viewBox="0 0 24 24" fill="none" class="mouse-icon" stroke="currentColor" stroke-width="1.5">
+                <rect x="7" y="3" width="10" height="18" rx="5" ry="5"></rect>
+                <line x1="12" y1="7" x2="12" y2="11"></line>
+            </svg>
+            <span>DRAG TO ROTATE SCENE</span>
+        </div>
+
+        <!-- Render Mode Menu -->
+        <div class="menu-container">
+            <button class="menu-button" id="menuToggle">
+                <div class="hamburger-line"></div>
+                <div class="hamburger-line"></div>
+                <div class="hamburger-line"></div>
+            </button>
+            <div class="menu-dropdown" id="menuDropdown">
+                <div class="menu-item selected" data-mode="points">✨ Ethereal Particles</div>
+                <div class="menu-item" data-mode="wireframe">🌐 Hologram Wireframe</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Import Map for Three.js -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+
+    <!-- Application Logic -->
+    <script type="module" src="app.js?v=2"></script>
+</body>
+
+</html>

@@ -185,8 +185,8 @@ loader.load('fbx.FBX', (object) => {
     scene.add(solidTreeObject);
     solidTreeObject.visible = false; // Hidden by default
 
-    // Optimize: Reduced from 800k to 350k for smooth 60fps on RTX 3000 series
-    const targetPointCount = 350000;
+    // Increasing resolution to 1,000,000 points for a denser, higher-fidelity point cloud
+    const targetPointCount = 1000000;
     const positions = new Float32Array(targetPointCount * 3);
     const colors = new Float32Array(targetPointCount * 3);
 
@@ -295,7 +295,7 @@ loader.load('fbx.FBX', (object) => {
     applyTreeColors();
 
     treeMat = new THREE.PointsMaterial({
-        size: 0.45, // Compensate for fewer points by making them slightly bigger (0.35 -> 0.45)
+        size: 0.35, // Adjusting size down for a finer, higher resolution look
         map: dotTexture,
         vertexColors: true,
         transparent: true,
